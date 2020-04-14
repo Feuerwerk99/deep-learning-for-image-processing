@@ -75,7 +75,9 @@ optimizer = optim.Adam(net.parameters(), lr=0.0002)
 save_path = './AlexNet.pth'
 best_acc = 0.0
 for epoch in range(10):
-    # train
+    # Sets the module in training mode.
+    # This has any effect only on certain modules. See documentations of particular modules for details of their
+    # behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
     net.train()
     running_loss = 0.0
     t1 = time.perf_counter()
@@ -95,9 +97,11 @@ for epoch in range(10):
         b = "." * int((1 - rate) * 50)
         print("\rtrain loss: {:^3.0f}%[{}->{}]{:.3f}".format(int(rate * 100), a, b, loss), end="")
     print()
-    print(time.perf_counter()-t1)
+    print(time.perf_counter() - t1)
 
-    # validate
+    # Sets the module in evaluation mode.
+    # This has any effect only on certain modules. See documentations of particular modules for details of their
+    # behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
     net.eval()
     acc = 0.0  # accumulate accurate number / epoch
     with torch.no_grad():
