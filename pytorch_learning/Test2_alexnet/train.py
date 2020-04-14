@@ -24,11 +24,12 @@ data_transform = {
 data_root = os.path.abspath(os.path.join(os.getcwd(), "../.."))  # get data root path
 image_path = data_root + "/data_set/flower_data/"  # flower data set path
 train_dataset = datasets.ImageFolder(root=image_path + "/train",
-                                     transform=data_transform["train"])
-train_num = len(train_dataset)
+                                     transform=data_transform["train"])  # {ImageFolder: 3306}
+train_num = len(train_dataset)  # train_num = 3306
 
-# {'daisy':0, 'dandelion':1, 'roses':2, 'sunflower':3, 'tulips':4}
+# {'daisy':0, 'dandelion':1, 'roses':2, 'sunflowers':3, 'tulips':4}
 flower_list = train_dataset.class_to_idx
+# {0:'daisy', 1:'dandelion', 2:'roses', 3:'sunflowers', 4:'tulips'}
 cla_dict = dict((val, key) for key, val in flower_list.items())
 # write dict into json file
 json_str = json.dumps(cla_dict, indent=4)
@@ -38,23 +39,27 @@ with open('class_indices.json', 'w') as json_file:
 batch_size = 32
 train_loader = torch.utils.data.DataLoader(train_dataset,
                                            batch_size=batch_size, shuffle=True,
-                                           num_workers=0)
+                                           num_workers=0)  # {DataLoader: 104}
 
 validate_dataset = datasets.ImageFolder(root=image_path + "/val",
-                                        transform=data_transform["val"])
-val_num = len(validate_dataset)
+                                        transform=data_transform["val"])  # {ImageFolder: 364}
+val_num = len(validate_dataset)  # val_num = 364
 validate_loader = torch.utils.data.DataLoader(validate_dataset,
                                               batch_size=4, shuffle=True,
-                                              num_workers=0)
+                                              num_workers=0)  # {DataLoader: 91}
 
-# test_data_iter = iter(validate_loader)
+# test_data_iter = iter(validate_loader)  # {_SingleProcessDataLoaderIter: 91}
 # test_image, test_label = test_data_iter.next()
+# # shape = {Size: 4} torch.Size([4, 3, 224, 224])
+# # shape = {Size: 1} 4
+#
 #
 # def imshow(img):
 #     img = img / 2 + 0.5  # unnormalize
 #     npimg = img.numpy()
 #     plt.imshow(np.transpose(npimg, (1, 2, 0)))
 #     plt.show()
+#
 #
 # print(' '.join('%5s' % cla_dict[test_label[j].item()] for j in range(4)))
 # imshow(utils.make_grid(test_image))
