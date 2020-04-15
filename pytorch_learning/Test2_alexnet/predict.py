@@ -47,4 +47,3 @@ for image in images_test:
         # Returns the indices of the maximum value of all elements in the input tensor.
         predict_cla = torch.argmax(predict).numpy()
     print(class_indict[str(predict_cla)], predict[predict_cla].item())
-
