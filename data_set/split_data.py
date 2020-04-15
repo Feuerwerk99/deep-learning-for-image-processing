@@ -33,7 +33,8 @@ for cla in flower_class:
             image_path = cla_path + image
             new_path = 'flower_data/train/' + cla
             copy(image_path, new_path)
-        print("\r[{}] processing [{}/{}]".format(cla, index+1, num), end="")  # processing bar
+        # processing bar
+        print("\r[{}] processing [{}/{}]".format(cla, index+1, num), end="")
     print()
 
 print("processing done!")
