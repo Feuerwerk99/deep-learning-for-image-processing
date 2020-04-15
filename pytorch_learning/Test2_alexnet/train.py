@@ -23,14 +23,15 @@ data_transform = {
 
 data_root = os.path.abspath(os.path.join(os.getcwd(), "../.."))  # get data root path
 image_path = data_root + "/data_set/flower_data/"  # flower data set path
+
 train_dataset = datasets.ImageFolder(root=image_path + "/train",
                                      transform=data_transform["train"])  # {ImageFolder: 3306}
 train_num = len(train_dataset)  # train_num = 3306
-
+flower_list = train_dataset.class_to_idx  # class_to_idx (dict): Dict with items (class_name, class_index).
 # {'daisy':0, 'dandelion':1, 'roses':2, 'sunflowers':3, 'tulips':4}
-flower_list = train_dataset.class_to_idx
-# {0:'daisy', 1:'dandelion', 2:'roses', 3:'sunflowers', 4:'tulips'}
 cla_dict = dict((val, key) for key, val in flower_list.items())
+# {0:'daisy', 1:'dandelion', 2:'roses', 3:'sunflowers', 4:'tulips'}
+
 # write dict into json file
 json_str = json.dumps(cla_dict, indent=4)
 with open('class_indices.json', 'w') as json_file:
@@ -74,14 +75,15 @@ optimizer = optim.Adam(net.parameters(), lr=0.0002)
 
 save_path = './AlexNet.pth'
 best_acc = 0.0
-for epoch in range(10):
+
+for epoch in range(20):
     # Sets the module in training mode.
     # This has any effect only on certain modules. See documentations of particular modules for details of their
     # behaviors in training/evaluation mode, if they are affected, e.g. Dropout, BatchNorm, etc.
     net.train()
     running_loss = 0.0
     t1 = time.perf_counter()
-    for step, data in enumerate(train_loader, start=0):
+    for step, data in enumerate(train_loader, start=0):  # step: 103 finally
         images, labels = data
         optimizer.zero_grad()
         outputs = net(images.to(device))
